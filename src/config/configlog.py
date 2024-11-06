@@ -18,15 +18,13 @@ class ConfigIni:
         local_config = ConfigParser()
         local_config.read(os.path.join(path, "config.ini"))
         userinfo = local_config["USERINFO"]
-        self.outputdir = userinfo["datadir"]
+        self.datadir = userinfo["datadir"]
         self.loginid = userinfo["loginid"]
-        self.loginpassword = userinfo["password"]
+        self.loginpassword = userinfo["loginpassword"]
         self.drivefolderid = userinfo["driveid"]
         self.sharepoint_user = userinfo["sharepoint_user"]
         self.sharepoint_pass = userinfo["sharepoint_pass"]
         self.currentpath = path
-        self.daysago = int(userinfo["daysago"])
-        self.fullLoad = bool(userinfo["fullLoad"])
         self.datefrom = userinfo["datefrom"]
         self.cptgroup = userinfo["cptgroup"]
 
@@ -44,22 +42,21 @@ def clear_dir(dir):
 
 # Create data output folders based on config
 config = ConfigIni()
-mkdir_ifnotexist(config.outputdir)
-logsFolderPath = os.path.join(config.outputdir, "logs")
+mkdir_ifnotexist(config.datadir)
+logsFolderPath = os.path.join(config.datadir, "logs")
 mkdir_ifnotexist(logsFolderPath)
-downloadsFolderPath = os.path.join(config.outputdir, "downloads")
+downloadsFolderPath = os.path.join(config.datadir, "downloads")
 mkdir_ifnotexist(downloadsFolderPath)
 clear_dir(downloadsFolderPath)
-# dataFolderPath = os.path.join(config.outputdir, "data")
-# mkdir_ifnotexist(dataFolderPath)
-# clear_dir(dataFolderPath)
-outputFolderPath = os.path.join(config.outputdir, "output")
+driveDownloadsPath = os.path.join(config.datadir, "drive")
+mkdir_ifnotexist(driveDownloadsPath)
+outputFolderPath = os.path.join(config.datadir, "output")
 mkdir_ifnotexist(outputFolderPath)
 clear_dir(outputFolderPath)
 
 
 # Creating day for naming
-day = date.today() - timedelta(days=config.daysago)
+day = date.today()
 day = day.strftime("%m-%d-%Y")
 
 # Creates debug.log which shows all info to spot failures

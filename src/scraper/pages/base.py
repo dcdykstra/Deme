@@ -13,7 +13,7 @@ class BasePage:
         self.driver = driver.driver
         self.wait = driver.wait
         self.actions = driver.actions
-        self.mydir = config.outputdir
+        self.mydir = config.datadir
         self.content = "_ctl0_ContentPlaceHolder1_gv"
 
     def make_soup(self):

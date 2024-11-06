@@ -22,7 +22,7 @@ from src.scraper.helpers.driver import Driver
 from src.scraper.helpers.cleaners import FileCleaner
 
 
-def scrape_yesterday():
+def scrape_yesterday(headless):
     ## Set the dates for the report
     now = dt.datetime.now()
     yesterday = now - dt.timedelta(days=1)
@@ -36,12 +36,13 @@ def scrape_yesterday():
         end_date=yesterday,
         bill_start_date=bill_start_date,
         bill_end_date=bill_end_date,
+        headless=headless,
     )
 
     return date
 
 
-def scrape_date(date: str):
+def scrape_date(date: str, headless):
     """date -> YYYY-MM-DD"""
     ## Set the dates for the report
     date_parse = pd.to_datetime(date, format="%Y-%m-%d")
@@ -54,12 +55,13 @@ def scrape_date(date: str):
         end_date=date_parse,
         bill_start_date=bill_start_date,
         bill_end_date=bill_end_date,
+        headless=headless,
     )
 
     return date
 
 
-def scrape_date_range(start_date: str, end_date: str):
+def scrape_date_range(start_date: str, end_date: str, headless):
     """date -> YYYY-MM-DD
     Date range cannot be more than 88 days
     BillingServicesReport may fail if date range is not large enough to automatically warrant a zip file when sourcing through eMed
@@ -77,12 +79,13 @@ def scrape_date_range(start_date: str, end_date: str):
         end_date=end_date,
         bill_start_date=start_date,
         bill_end_date=end_date,
+        headless=headless,
     )
 
     return start_date, end_date
 
 
-def scrape_all_reports(start_date, end_date, bill_start_date, bill_end_date):
+def scrape_all_reports(start_date, end_date, bill_start_date, bill_end_date, headless):
     ## Instantiate the helper class
     helper = FileCleaner()
 
@@ -90,7 +93,7 @@ def scrape_all_reports(start_date, end_date, bill_start_date, bill_end_date):
     downloads = helper.get_dir_path("downloads")
 
     ## Set the driver settings
-    driver_settings = Driver.get_driver(downloads)
+    driver_settings = Driver.get_driver(downloads, headless=headless)
     driver = driver_settings.driver
 
     ## Instantiate the page objects

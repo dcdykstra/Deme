@@ -25,7 +25,7 @@ class FileCleaner:
                 os.rename(os.path.join(path, item), os.path.join(path, new_name))
 
     def get_dir_path(self, dir):
-        rel_path = os.path.join(config.outputdir, dir)
+        rel_path = os.path.join(config.datadir, dir)
         return os.path.abspath(rel_path)
 
     def get_file(self, file_name, dir):

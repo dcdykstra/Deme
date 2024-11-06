@@ -13,13 +13,12 @@ class Driver:
         self.driver = driver
 
     @classmethod
-    def get_driver(cls, download_path):
+    def get_driver(cls, download_path, headless):
         cls.prefs = {
             "profile.default_content_setting_values.automatic_downloads": 1,
             "download.default_directory": download_path,
         }
         cls.options = webdriver.ChromeOptions()
-        cls.options.add_argument("--headless")
         cls.options.add_argument("--no-sandbox")
         cls.options.add_argument("--disable-dev-shm-usage")
         cls.options.add_argument("--ignore-certificate-errors")
@@ -27,6 +26,10 @@ class Driver:
         cls.options.add_experimental_option("excludeSwitches", ["enable-logging"])
         cls.options.add_experimental_option("prefs", cls.prefs)
         cls.options.add_argument("--disable-blink-features=AutomationControlled")
+
+        if headless:
+            cls.options.add_argument("--headless")
+
         cls.driver = webdriver.Chrome(
             options=cls.options, service=ChromeService(ChromeDriverManager().install())
         )
