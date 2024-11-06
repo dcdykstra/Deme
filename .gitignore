@@ -12,3 +12,4 @@ settings.yaml
 *.xls
 *.zip
 *.ipynb
+!analytics.ipynb
